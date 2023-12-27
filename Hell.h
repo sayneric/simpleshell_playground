@@ -24,7 +24,7 @@
 void sayne_print(const char *note);
 void interpret_command(char *instruction, size_t size);
 void display_prompt(void);
-void accomplish_task(const char *task);
+void accomplish_task(char *task);
 
 
 

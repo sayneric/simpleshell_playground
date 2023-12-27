@@ -1,5 +1,7 @@
 #include "Hell.h"
 
+#define MAX_ARGUMENTS 10
+
 
 
 /**
@@ -20,7 +22,7 @@
  */
 
 
-void accomplish_task(const char *task)
+void accomplish_task(char *task)
 {
 	pid_t pikin_pid = fork();
 
@@ -31,13 +33,28 @@ void accomplish_task(const char *task)
 	}
 	else if (pikin_pid == 0)
 	{
-		const char *args[] = {task, NULL};
+		/* Child process */
 
-		if (execve(task, (char *const *)args, environ) == -1)
+		/* Tokenize the command and arguments */
+		char *token, *args[MAX_ARGUMENTS];
+		int arg_index = 0;
+
+		token = strtok(task, " ");
+		while (token != NULL && arg_index < MAX_ARGUMENTS - 1)
+		{
+			args[arg_index++] = token;
+			token = strtok(NULL, " ");
+		}
+		/* Set the last element of the array to NULL */
+		args[arg_index] = NULL;
+
+		/* Execute the command with arguments using execv */
+		if (execve(args[0], args, NULL) == -1)
 		{
 			perror("execve");
 			exit(EXIT_FAILURE);
 		}
+
 	}
 	else
 	{
