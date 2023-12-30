@@ -40,7 +40,7 @@ void tokenize_arguments(char *task, char *args[])
  *
  * Description:
  * This function checks if the given command exists in the PATH.
- * If the command is executable, it forks a child process to execute
+ * If the command is executable, it forks a childi process to execute
  * the command using execve. The parent process waits for the child
  * to complete.
  *
@@ -73,10 +73,9 @@ void accomplish_task(char *command)
 	{
 		/* Child process logic (executing the command) */
 		char *args[MAX_ARGUMENTS];
-		char *const env_vars[]  = {"PATH=/bin:/usr/bin", NULL };
 
 		tokenize_arguments(command, args);
-		if (execve(args[0], args, env_vars) == -1)
+		if (execve(args[0], args, environ) == -1)
 		{
 			perror("execve");
 			free(args[0]);

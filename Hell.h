@@ -1,7 +1,11 @@
 #ifndef HELL_H
 #define HELL_H
 
+/*
+ * Declarations
+ */
 
+extern char **environ;
 
 /*
  * Header files
