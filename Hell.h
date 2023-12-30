@@ -15,7 +15,9 @@
 #include <sys/wait.h>
 #include <sys/types.h>
 #include <stddef.h>
-
+#include <fcntl.h>
+#include <dirent.h>
+#include <sys/stat.h>
 
 /*
  * Functions
@@ -24,8 +26,8 @@
 void sayne_print(const char *note);
 void interpret_command(char *instruction, size_t size);
 void display_prompt(void);
-void accomplish_task(char *task);
-
+void accomplish_task(char *command);
+void tokenize_arguments(char *task, char *args[]);
 
 
 
