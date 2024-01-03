@@ -13,7 +13,7 @@
 
 int main(void)
 {
-	char instruction[1028];
+	char instruction[MAX_COMMAND_LENGTH];
 
 	while (1)
 	{

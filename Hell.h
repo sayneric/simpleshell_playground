@@ -2,6 +2,13 @@
 #define HELL_H
 
 /*
+ * Macros
+ */
+
+#define MAX_ARGUMENTS 10
+#define MAX_COMMAND_LENGTH 1028
+
+/*
  * Declarations
  */
 
@@ -31,7 +38,7 @@ void sayne_print(const char *note);
 void interpret_command(char *instruction, size_t size);
 void display_prompt(void);
 void accomplish_task(char *command);
-void tokenize_arguments(char *task, char *args[]);
+/* char *tokenize_arguments(char *task); */
 
 
 

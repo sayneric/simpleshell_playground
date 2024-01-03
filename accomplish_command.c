@@ -1,38 +1,5 @@
 #include "Hell.h"
 
-#define MAX_ARGUMENTS 10
-
-
-/**
- * tokenize_arguments - Tokenizes a command into arguments.
- * @task: The command to be tokenized.
- * @args: Array to store the tokenized arguments.
- *
- * Description:
- * This function tokenizes the given command using strtok and stores the
- * individual arguments in the provided array. The last element of the array
- * is set to NULL to mark the end of arguments.
- *
- * Parameters:
- * - task: The command to be tokenized.
- * - args: Array to store the tokenized arguments.
- */
-
-
-void tokenize_arguments(char *task, char *args[])
-{
-	char *token;
-	int arg_index = 0;
-
-	token = strtok(task, " ");
-	while (token != NULL && arg_index < MAX_ARGUMENTS - 1)
-	{
-		args[arg_index++] = token;
-		token = strtok(NULL, " ");
-	}
-	/* Set the last element of the array to NULL */
-	args[arg_index] = NULL;
-}
 
 /**
  * accomplish_task - Executes a given command.
@@ -51,40 +18,60 @@ void tokenize_arguments(char *task, char *args[])
 
 void accomplish_task(char *command)
 {
+	char *path, *copy_of_path, *tokenize_path;
+	char command_path[MAX_COMMAND_LENGTH];
+	char *token, *args[MAX_ARGUMENTS];
+	int arg_index = 0;
+	pid_t pid;
+
+	token = strtok(command, " ");
+	while (token != NULL && arg_index < MAX_ARGUMENTS - 1)
+	{
+		args[arg_index++] = token;
+		token = strtok(NULL, " ");
+	}
+	/* Set the last element of the array to NULL */
+	args[arg_index] = NULL;
+	
+	if (strcmp(args[0], "exit") == 0)
+	{
+		printf("Goodbye!\n");
+		exit(EXIT_SUCCESS);
+	}
 	/* check if the command exisits in PATH */
-	pid_t pikin_pid;
+	path = getenv("PATH");
+	copy_of_path = strdup(path);
+	tokenize_path = strtok(copy_of_path, ":");
 
-	if (access(command, X_OK) != 0)
+	while (tokenize_path != NULL)
 	{
-		write(STDERR_FILENO, "command not found\n",
-				sizeof("command not found\n") - 1);
-		write(STDERR_FILENO, command, strlen(command));
-		write(STDERR_FILENO, "\n", 1);
-		exit(EXIT_FAILURE);
-	}
-	/* if the command is executable, proceed with fork and execve */
-	pikin_pid = fork();
-	if (pikin_pid == -1)
-	{
-		perror("fork");
-		exit(EXIT_FAILURE);
-	}
-	else if (pikin_pid == 0)
-	{
-		/* Child process logic (executing the command) */
-		char *args[MAX_ARGUMENTS];
+		snprintf(command_path, sizeof(command_path), "%s/%s", tokenize_path, args[0]);
 
-		tokenize_arguments(command, args);
-		if (execve(args[0], args, environ) == -1)
+		if (access(command_path, X_OK) == 0)
 		{
-			perror("execve");
-			free(args[0]);
-			exit(EXIT_FAILURE);
+			/* Command found in the current path */
+			pid = fork();
+
+			if (pid == -1)
+			{
+				perror("fork");
+			}
+			else if (pid == 0)
+			{
+				/* Child process */
+				execve(command_path, args, NULL);
+				/* If execve fails */
+				perror("execve");
+				exit(EXIT_FAILURE);
+			}
+			else
+			{
+				/* parent process */
+				wait(NULL);
+			}
 		}
+
+		tokenize_path = strtok(NULL, ":");
 	}
-	else
-	{
-		/* parent process login (waiting for the child) */
-		waitpid(pikin_pid, NULL, 0);
-	}
+	free(copy_of_path);
 }
