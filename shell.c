@@ -11,7 +11,7 @@
  * The function returns 0 to indicate successful execution.
  */
 
-int main(void)
+int main(int argc, char *argv[])
 {
 	char instruction[MAX_COMMAND_LENGTH];
 
@@ -19,6 +19,16 @@ int main(void)
 	{
 		display_prompt();
 		interpret_command(instruction, sizeof(instruction));
+		if (compare_strings(instruction, "exit"))
+		{
+			sayne_print("Exiting the program.\n");
+			break;
+		}
+		if (argc > 1)
+		{
+			process_arguments(argc, argv);
+			return (0);
+		}
 		accomplish_task(instruction);
 	}
 	return (0);

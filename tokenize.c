@@ -15,19 +15,20 @@
  */
 
 
-char *tokenize_arguments(char *task)
+char *tokenize_arguments(const char *task, char *args[])
 {
-	char *token, *argument[MAX_ARGUMENTS];
+	char *token;
+	char *temp_task = strdup(task); /* Non-const temp string */
 	int arg_index = 0;
 
-	token = strtok(task, " ");
+	token = strtok(temp_task, " ");
 	while (token != NULL && arg_index < MAX_ARGUMENTS - 1)
 	{
-		argument[arg_index++] = token;
+		args[arg_index++] = token;
 		token = strtok(NULL, " ");
 	}
 	/* Set the last element of the array to NULL */
-	argument[arg_index] = NULL;
-
-	return (argument[MAX_ARGUMENTS]);
+	args[arg_index] = NULL;
+	free(temp_task); /* free the allocated memory for temp string */
+	return (args[0]);
 }
