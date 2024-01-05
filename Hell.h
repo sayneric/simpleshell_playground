@@ -39,7 +39,7 @@ void interpret_command(char *instruction, size_t size);
 void display_prompt(void);
 void accomplish_task(char *command);
 /* char *tokenize_arguments(char *task); */
-
+int compare_strings(const char *str1, const char *str2);
 
 
 
