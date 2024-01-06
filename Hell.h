@@ -44,6 +44,7 @@ int compare_strings(const char *str1, const char *str2);
 char *tokenize_arguments(const char *task, char *args[]);
 void process_arguments(int argc, char *argv[]);
 int main(int argc, char *argv[]);
+void env_builtin(void);
 
 
 
