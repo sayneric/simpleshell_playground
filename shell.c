@@ -51,7 +51,6 @@ int main(int argc, char *argv[])
 		if (argc > 1)
 		{
 			process_arguments(argc, argv);
-			return (0);
 		}
 		accomplish_task(instruction);
 	}
