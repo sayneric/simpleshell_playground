@@ -4,9 +4,9 @@
 /*
  * Macros
  */
-
-#define MAX_ARGUMENTS 10
-#define MAX_COMMAND_LENGTH 100
+#define INITIAL_BUFFER_SIZE 1024
+#define MAX_ARGUMENTS 100
+#define MAX_COMMAND_LENGTH 1000
 
 /*
  * Declarations
@@ -29,6 +29,10 @@ extern char **environ;
 #include <fcntl.h>
 #include <dirent.h>
 #include <sys/stat.h>
+#include <stdbool.h>
+#include <ctype.h>
+
+
 
 /*
  * Functions
@@ -45,9 +49,11 @@ char *tokenize_arguments(const char *task, char *args[]);
 void process_arguments(int argc, char *argv[]);
 int main(int argc, char *argv[]);
 void env_builtin(void);
-
-
-
+void set_last_element_to_null(char *args[], int arg_index);
+char *handle_quotes_and_escapes(char *token, bool *in_quotes);
+char *custom_strtok(char *str, const char *delimiters);
+char *custom_getline(void);
+char *read_input(size_t *buffer_size, size_t *buffer_pos);
 
 
 

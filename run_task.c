@@ -1,7 +1,7 @@
 #include "Hell.h"
 
 
-#define MAX_COMMAND_LENGTH 100
+
 
 
 /**
