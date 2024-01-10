@@ -22,12 +22,12 @@ char *tokenize_arguments(const char *task, char *args[])
 	bool in_quotes = false;
 
 	delimiters = " \t\r\n\v\f";
-	token = strtok(temp_task, delimiters);
+	token = custom_strtok(temp_task, delimiters);
 	while (token != NULL && arg_index < MAX_ARGUMENTS - 1)
 	{
 		token = handle_quotes_and_escapes(token, &in_quotes);
 		args[arg_index++] = token;
-		token = strtok(NULL, delimiters);
+		token = custom_strtok(NULL, delimiters);
 	}
 	set_last_element_to_null(args, arg_index);
 	free(temp_task);
@@ -58,11 +58,11 @@ char *handle_quotes_and_escapes(char *token, bool *in_quotes)
 		else if (token[0] == '\\' && *in_quotes)
 		{
 			/* Skip the escape character within qoutes */
-			token = strtok(NULL, " \t\r\n\v\f");
+			token = custom_strtok(NULL, " \t\r\n\v\f");
 			continue;
 		}
 		/* Move to the next part of the token */
-		token = strtok(NULL, " \t\r\n\v\f");
+		token = custom_strtok(NULL, " \t\r\n\v\f");
 	}
 	return (token);
 }

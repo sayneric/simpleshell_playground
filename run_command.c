@@ -102,7 +102,7 @@ void execute_command(char *command, char *argv[])
 	else if (pikin_pid == 0)
 	{
 		argv[i++] = strtok(command, " ");
-		while ((argv[i++] = strtok(NULL, " ")) != NULL)
+		while ((argv[i++] = custom_strtok(NULL, " ")) != NULL)
 		argv[i - 1] = NULL;  /* Add NULL terminator */
 		if (_strchr(argv[0], '/') != NULL)
 		{
@@ -113,7 +113,7 @@ void execute_command(char *command, char *argv[])
 		}
 		else
 		{
-			char *full_path = _strcont("/bin/", argv[0]);
+			char* full_path = _strconcat("/bin/", argv[0]);
 
 			if (access(full_path, X_OK) == 0)
 			{  /* Check if command exists in /bin/ */
