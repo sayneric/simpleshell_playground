@@ -4,7 +4,6 @@
  * _strchr - checks string for a particular character
  * @str: string to check
  * @c: character
- * 
  * Return: Return pointer to the found character
  */
 
@@ -14,54 +13,54 @@ char *_strchr(const char *str, int c)
 	{
 		if (*str == c)
 		{
-			return (char *)str;
+			return ((char *)str);
 		}
 		str++;
 	}
-	return NULL;
+	return (NULL);
 }
 
 /**
  * _strlen - measures the length of a string
  * @str: string
- * 
  * Return: Return the number of characters in str
  */
 
 int _strlen(const char *str)
 {
 	int len = 0;
-	while (*str != '\0') {
-	len++;
-	str++;
-					    }
-	return len;
+
+	while (*str != '\0')
+	{
+		len++;
+		str++;
+	}
+	return (len);
 }
 
 /**
  * _strcpy - copy string from source to destination
  * @dest: destination
  * @src: source
- * 
  * Return: Return pointer to the beginning of the destination string
  */
 
 char *_strcpy(char *dest, const char *src)
 {
 	char *start = dest;
+
 	while (*src != '\0')
 	{
 		*dest++ = *src++;
 	}
 	*dest = '\0';
-	return start;
+	return (start);
 }
 
 /**
  * _strconcat - concatenate strings
  * @prefix:prefix
  * @suffix: suffix
- * 
  * Return: Return pointer to the new string
  */
 
@@ -73,31 +72,28 @@ char *_strconcat(const char *prefix, const char *suffix)
 
 	if (result == NULL)
 	{
-		return NULL;
+		return (NULL);
 	}
 
 	_strcpy(result, prefix);  /*  Copy prefix to result */
-	_strcpy(result + prefix_len, suffix);  /* Copy suffix to result, starting after prefix */
-
-	return result;  
+	_strcpy(result + prefix_len, suffix);
+	return (result);
 }
 
 /**
  * execute_command - Execute a command in a child process.
- * @command_path: The full path to the command to be executed.
+ * @argv: The full path to the command to be executed.
  * @command: The command to be executed.
- *
  * This function forks a child process to execute the specified command.
  * Child process uses execve to replace its image with the specified command.
  * The parent process waits for the child process to complete.
  */
 
-void execute_command (char *command, char *argv[])
+void execute_command(char *command, char *argv[])
 {
 	int i = 0;
-	pid_t pikin_pid;
+	pid_t pikin_pid = fork();
 
-	pikin_pid = fork();
 	if (pikin_pid == -1)
 	{
 		perror("fork");
@@ -105,29 +101,27 @@ void execute_command (char *command, char *argv[])
 	}
 	else if (pikin_pid == 0)
 	{
-		/* Child process logic */
-		argv[i++] = strtok(command, " ");  /* Get first argument (command name) */
-		while ((argv[i++] = strtok(NULL, " ")) != NULL);  /* Get remaining arguments */
+		argv[i++] = strtok(command, " ");
+		while ((argv[i++] = strtok(NULL, " ")) != NULL)
 		argv[i - 1] = NULL;  /* Add NULL terminator */
-
-		/* Check if path is specified in the command */
 		if (_strchr(argv[0], '/') != NULL)
-		{  /* Path is specified */
-
+		{
 			if (access(command, X_OK) == 0)
 			{
-				execve(argv[0], argv, NULL);  
+				execve(argv[0], argv, NULL);
 			}
 		}
 		else
 		{
-			char *full_path = _strconcat("/bin/", argv[0]);
+			char *full_path = _strcont("/bin/", argv[0]);
+
 			if (access(full_path, X_OK) == 0)
 			{  /* Check if command exists in /bin/ */
 				execve(full_path, argv, NULL);
 			}
-			else										                  {
-				printf("%s: command not found\n", argv[0]);
+			else
+			{
+				sayne_print("%s: command not found\n", argv[0]);
 			}
 		}
 		perror("execve");  /* Reached only if execve fails */
@@ -135,7 +129,6 @@ void execute_command (char *command, char *argv[])
 	}
 	else
 	{
-		/* Parent process logic(waiting for the child) */
 		waitpid(pikin_pid, NULL, 0);
 	}
 }

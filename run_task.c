@@ -12,7 +12,8 @@
  * This function checks if the specified command is a built-in command.
  * If it is a built-in command, it executes the corresponding function;
  * otherwise, it checks if the command exists and is executable.
- * If the command is found, it is executed; otherwise, an error message is printed.
+ * If the command is found, it is executed; otherwise, an error
+ * message is printed.
  */
 
 void accomplish_task(char *command, char *argv[])

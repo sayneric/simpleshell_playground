@@ -9,7 +9,7 @@
  * tab, newline, carriage return, vertical tab, and form feed delimiters.
  * It handles quotes and escapes within tokens.
  *
- * Returns: The first token in the array.
+ * Return: The first token in the array.
  */
 
 
@@ -43,7 +43,7 @@ char *tokenize_arguments(const char *task, char *args[])
  * This function processes a token, toggling the in_quotes flag based on
  * quotes and handling escape characters within quotes.
  *
- * Returns: The modified token.
+ * Return: The modified token.
  */
 
 

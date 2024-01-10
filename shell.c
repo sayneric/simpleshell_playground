@@ -39,7 +39,7 @@ int main(void)
 {
 	char *argv[MAX_ARGUMENTS];
 	char instruction[MAX_COMMAND_LENGTH];
-	
+
 	while (1)
 	{
 		display_prompt();
@@ -49,7 +49,6 @@ int main(void)
 			sayne_print("Exiting the program.\n");
 			break;
 		}
-	
 		accomplish_task(instruction, argv);
 	}
 	return (0);
