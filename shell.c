@@ -35,10 +35,11 @@ void env_builtin(void)
  * The function returns 0 to indicate successful execution.
  */
 
-int main(int argc, char *argv[])
+int main(void)
 {
+	char *argv[MAX_ARGUMENTS];
 	char instruction[MAX_COMMAND_LENGTH];
-
+	
 	while (1)
 	{
 		display_prompt();
@@ -48,11 +49,8 @@ int main(int argc, char *argv[])
 			sayne_print("Exiting the program.\n");
 			break;
 		}
-		if (argc > 1)
-		{
-			process_arguments(argc, argv);
-		}
-		accomplish_task(instruction);
+	
+		accomplish_task(instruction, argv);
 	}
 	return (0);
 }

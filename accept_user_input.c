@@ -31,11 +31,6 @@ void interpret_command(char *instruction, size_t size)
 			sayne_print("\n");
 			exit(EXIT_SUCCESS);
 		}
-		else
-		{
-			sayne_print("Error while reading input.\n");
-			exit(EXIT_FAILURE);
-		}
 	}
 	instruction[strcspn(instruction, "\n")] = '\0';
 }
