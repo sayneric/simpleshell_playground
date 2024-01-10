@@ -31,14 +31,13 @@ extern char **environ;
 #include <sys/stat.h>
 #include <stdbool.h>
 #include <ctype.h>
-
+#include <stdarg.h>
 
 
 /*
  * Functions
  */
-
-void sayne_print(const char *note);
+void sayne_print(const char *format, ...);
 void interpret_command(char *instruction, size_t size);
 void display_prompt(void);
 void execute_command(char *command, char *argv[]);
